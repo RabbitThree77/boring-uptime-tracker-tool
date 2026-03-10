@@ -1,16 +1,16 @@
 # Boring Uptime Tracker Tool (BUTT)
-A TOML configurable uptime tracker written in Go
+A lightweight, configurable uptime tracker written in Go
 
-> [!CAUTION]
+> [!WARNING]
 > This repo is new and under active development.
-> I do not recommend using it in its current state.
-
+> I do not recommend using it in serious projects.
 
 ## Features
-- fully configure the tracker in TOML
-- Customize
-  - interval
-  - Retry Count
+- tiny size
+- made to be simple
+- concurrency
+- local only
+- fully configurable in TOML
 - Discord Webhook Notifications
 
 ## Quick Start
