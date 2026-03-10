@@ -13,13 +13,13 @@ A TOML configurable uptime tracker written in Go
   - Retry Count
 
 ## Quick Start
-1. **Clone Repository**
+1. **Clone Repository:**
   ```bash
   git clone https://github.com/RabbitThree77/boring-uptime-tracker-tool
   ```
-2. **Configure**
+2. **Configure:**
   Edit `Config.toml`
-3. **Run The Script**
+3. **Run The Script:**
   `go run main.go`
 
 ## Configuration
