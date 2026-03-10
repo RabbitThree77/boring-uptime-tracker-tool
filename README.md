@@ -3,7 +3,7 @@ A TOML configurable uptime tracker written in Go
 
 > [!CAUTION]
 > This repo is new and under active development.
-> I do not reccomend using it in it's current state.
+> I do not recommend using it in its current state.
 > BUTT doesn't yet provide any solid way to detect an outage other than text logs
 
 ## Features
@@ -12,10 +12,15 @@ A TOML configurable uptime tracker written in Go
   - interval
   - Retry Count
 
-## Usage
-1. Clone this repository
-2. Create a configuration under `Config.toml` in the project directory
-3. `go run main.go`
+## Quick Start
+1. **Clone Repository**
+  ```bash
+  git clone https://github.com/RabbitThree77/boring-uptime-tracker-tool
+  ```
+2. **Configure**
+  Edit `Config.toml`
+3. **Run The Script**
+  `go run main.go`
 
 ## Configuration
 A short guide on configuration, sample configuration provided in repo
@@ -23,7 +28,7 @@ A short guide on configuration, sample configuration provided in repo
 ```TOML
 [Server]
 verbose = false # a flag that decides whether or not to print extra infomration for each request [true | false]
-timeout = 1     # the value that decides how long to wait until a request fails [min 1, float]
+timeout = 1.0   # the value that decides how long to wait until a request fails [min 1, float]
 ```
 ### Individual Website Settings
 ```TOML
