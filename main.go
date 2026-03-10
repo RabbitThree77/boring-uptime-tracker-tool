@@ -1,12 +1,16 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/BurntSushi/toml"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 type Website struct {
@@ -17,13 +21,18 @@ type Website struct {
 }
 
 type ServerConfig struct {
-	Verbose bool `toml:"verbose"`
+	Verbose bool    `toml:"verbose"`
 	Timeout float64 `toml:"timeout"`
 }
 
+type NotificationsConfig struct {
+	DiscordWebhook string `toml:"discord_webhook"`
+}
+
 type Config struct {
-	Websites []Website
-	Server   ServerConfig
+	Websites      []Website
+	Server        ServerConfig
+	Notifications NotificationsConfig
 }
 
 func loadConfig(path string) Config {
@@ -38,6 +47,10 @@ func loadConfig(path string) Config {
 func validateServer(conf *Config) {
 	if conf.Server.Timeout <= 0 {
 		conf.Server.Timeout = 1
+	}
+	conf.Notifications.DiscordWebhook = os.Getenv(conf.Notifications.DiscordWebhook)
+	if conf.Notifications.DiscordWebhook == "" {
+		fmt.Println("Discord Webhook not found!")
 	}
 }
 
@@ -71,6 +84,9 @@ func handleCheck(website Website, done chan bool, conf Config) {
 	}
 
 	var attempts uint = 0
+	var isDown bool = false
+
+
 	for {
 		select {
 		case <-done:
@@ -97,11 +113,64 @@ func handleCheck(website Website, done chan bool, conf Config) {
 					fmt.Printf("%s is Okay\n", website.Name)
 				}
 				attempts = 0
+				if isDown {
+					//TODO
+					go sendDiscordEmbed(conf.Notifications.DiscordWebhook, website.Name, "Website is Operational!", 5763719)
+					isDown = false
+				}
 			}
-			if attempts >= website.Retry + 1 {
+			if attempts >= website.Retry+1 {
 				fmt.Printf("ALERT: %s is DOWN\n", website.Name)
 				attempts = 0
+				if !isDown {
+					//TODO
+					go sendDiscordEmbed(conf.Notifications.DiscordWebhook, website.Name, "Website is Down!", 15548997)
+					isDown = true
+				}
 			}
+
 		}
 	}
+}
+
+type DiscordEmbed struct {
+    Title string `json:"title"`
+	Message string `json:"description"`
+	Color int `json:"color"`
+}
+
+type DiscordPayload struct {
+	Embeds []DiscordEmbed `json:"embeds"`
+}
+
+func sendDiscordEmbed(webhookUrl string, name string, message string, color int) {
+	if webhookUrl == "" {
+		return
+	}
+
+	embed := DiscordEmbed{
+		Title: name,
+		Message: message,
+		Color: color,
+	}
+	list := [1]DiscordEmbed{embed}
+	payload := DiscordPayload{
+		Embeds: list[:],
+	}
+
+	jsonData, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Printf("Error Marhsaling: %v\n", err)
+	}
+
+	resp, err := http.Post(webhookUrl, "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		fmt.Printf("failed to send alert to discord: %v\n", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusNoContent && resp.StatusCode != http.StatusOK {
+        fmt.Printf("Discord returned non-ok status: %d\n", resp.StatusCode)
+    }
+
 }

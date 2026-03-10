@@ -2,16 +2,21 @@
 verbose = false
 timeout = 1
 
-[[Websites]]
-name = "Google"
-url = "https://google.com"
-interval = 3.0
+[Notifications]
+discord_webhook = "BUTT_DISCORD"
+
+# [[Websites]]
+# name = "Google"
+# url = "https://google.com"
+# interval = 3.0
+
+# [[Websites]]
+# name = "Youtube"
+# url = "https://youtube.com"
+# interval = 8.0
 
 [[Websites]]
-name = "Youtube"
-url = "https://youtube.com"
-
-[[Websites]]
-name = "This website is down"
+name = "Fybercard"
 url = "http://fuaeghfhkjadfv_sdjnvbwsdhkfukwehfbwehk.com"
-retry = 1
+# retry = 1
+interval = 3.0
