@@ -1,0 +1,18 @@
+[Server]
+verbose = false
+
+
+[[Websites]]
+name = "Google"
+url = "https://google.com"
+interval = 3.0
+
+[[Websites]]
+name = "Youtube"
+url = "https://youtube.com"
+
+[[Websites]]
+name = "This website is down"
+url = "http://fuaeghfhkjadfv_sdjnvbwsdhkfukwehfbwehk.com"
+
+[[Websites]]
