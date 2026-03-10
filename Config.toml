@@ -1,6 +1,6 @@
 [Server]
 verbose = false
-
+timeout = 1
 
 [[Websites]]
 name = "Google"
@@ -14,5 +14,4 @@ url = "https://youtube.com"
 [[Websites]]
 name = "This website is down"
 url = "http://fuaeghfhkjadfv_sdjnvbwsdhkfukwehfbwehk.com"
-
-[[Websites]]
+retry = 1
