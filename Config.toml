@@ -16,7 +16,7 @@ discord_webhook = "BUTT_DISCORD"
 # interval = 8.0
 
 [[Websites]]
-name = "Fybercard"
+name = "Fake Webiste"
 url = "http://fuaeghfhkjadfv_sdjnvbwsdhkfukwehfbwehk.com"
 # retry = 1
 interval = 3.0
